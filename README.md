@@ -18,29 +18,24 @@ This project demonstrates the implementation of a **highly available and self-he
 
 ### Phase 1: High-Intensity Load Generation
 * **Action:** Executed `stress-ng --cpu 2 --timeout 900s` to saturate instance resources.
-* **Evidence:** /Screenshot 2026-01-14 003551.png shows both CPU cores pinned at **100.0%** utilization.
-* **Logic:** Manual stress injection is used to validate that CloudWatch correctly monitors and reports threshold breaches.
+* **Technical Proof:** Below shows both CPU cores pinned at **100.0%** utilization.
+
+![CPU Stress Proof](./Screenshot%202026-01-14%20003551.png)
 
 ### Phase 2: Automated Alarm Triggering
 * **Action:** CloudWatch Alarms monitored the CPU metrics against a 50% threshold.
-* **Evidence:** `image_8bc8aa.png` captures the transition of monitoring states. 
-* **Logic:** The **AlarmHigh** moved to "In Alarm" after the CPU load remained high for the required evaluation period.
+* **Technical Proof:** The dashboard confirms the `AlarmHigh` transitioned to the **"In alarm"** state.
+
+![CloudWatch Alarm In State](./Screenshot%202026-01-14%20012114.png)
 
 ### Phase 3: Automated Scaling & Recovery
 * **Action:** The ASG launched new instances to distribute load and terminated them when the stress test ended.
-* **Evidence (Scale-Out):** `Screenshot 2026-01-14 010040.png` shows the fleet expanded to 8 instances.
-* **Evidence (Scale-In):** `Screenshot 2026-01-14 010201.png` shows the **Activity History** logs of successful instance terminations.
 
----
+**Scale-Out (Fleet Growth):**
+![EC2 Fleet Expansion](./Screenshot%202026-01-14%20010040.png)
 
-## 📊 Summary of Evidence
-
-| Phase | Technical Observation | Proof |
-| :--- | :--- | :--- |
-| **Trigger** | CPU reached 100% capacity via `stress-ng`. | `Screenshot 2026-01-14 003551.png` |
-| **Detection** | CloudWatch Alarm transitioned to "In Alarm" state. | `image_8bc8aa.png` |
-| **Scale-Out** | ASG successfully provisioned new nodes to handle load. | `Screenshot 2026-01-14 010040.png` |
-| **Scale-In** | ASG terminated nodes post-test to optimize cost. | `Screenshot 2026-01-14 010201.png` |
+**Scale-In (Self-Healing/Termination Activity):**
+![ASG Activity Logs](./Screenshot%202026-01-14%20010201.png)
 
 ---
 
