@@ -18,7 +18,7 @@ This project demonstrates the implementation of a **highly available and self-he
 
 ### Phase 1: High-Intensity Load Generation
 * **Action:** Executed `stress-ng --cpu 2 --timeout 900s` to saturate instance resources.
-* **Evidence:** `Screenshot 2026-01-14 003551.png` shows both CPU cores pinned at **100.0%** utilization.
+* **Evidence:** /Screenshot 2026-01-14 003551.png shows both CPU cores pinned at **100.0%** utilization.
 * **Logic:** Manual stress injection is used to validate that CloudWatch correctly monitors and reports threshold breaches.
 
 ### Phase 2: Automated Alarm Triggering
