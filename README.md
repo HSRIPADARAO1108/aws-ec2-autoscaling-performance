@@ -4,7 +4,6 @@
 This project demonstrates the implementation of a **highly available and self-healing infrastructure** using AWS. I configured an Auto Scaling Group (ASG) to respond to real-time CPU stress, proving the system's ability to "Scale-Out" during traffic spikes and "Scale-In" to optimize costs during idle periods.
 
 
-
 ---
 
 ## 🛠 Tech Stack
@@ -17,25 +16,28 @@ This project demonstrates the implementation of a **highly available and self-he
 ## 🚀 Execution & Phase Explanation
 
 ### Phase 1: High-Intensity Load Generation
-* **Action:** Executed `stress-ng --cpu 2 --timeout 900s` to saturate instance resources.
-* **Technical Proof:** Below shows both CPU cores pinned at **100.0%** utilization.
+* **Action:** Executed `stress-ng --cpu 2 --timeout 300s` to saturate instance resources.
+* **Technical Proof:** The terminal confirms a successful 5-minute stress run, and the `htop` dashboard shows both CPU cores pinned at **100.0%** utilization.
 
-![CPU Stress Proof](./Screenshot%202026-01-14%20003551.png)
+![Stress-ng Execution](./Screenshot%202026-01-14%20003455.png)
+![CPU Saturation Proof](./Screenshot%202026-01-14%20003551.png)
 
 ### Phase 2: Automated Alarm Triggering
 * **Action:** CloudWatch Alarms monitored the CPU metrics against a 50% threshold.
-* **Technical Proof:** The dashboard confirms the `AlarmHigh` transitioned to the **"In alarm"** state.
+* **Technical Proof:** The CloudWatch dashboard confirms that the **AlarmHigh** transitioned to the **"In alarm"** state once the threshold was breached.
 
-![CloudWatch Alarm In State](./Screenshot%202026-01-14%20012114.png)
+![CloudWatch Alarm Triggered](./Screenshot%202026-01-14%20012114.png)
 
 ### Phase 3: Automated Scaling & Recovery
-* **Action:** The ASG launched new instances to distribute load and terminated them when the stress test ended.
+* **Action:** The ASG responded by launching new instances to handle the load and subsequently terminated them once the stress test concluded.
 
-**Scale-Out (Fleet Growth):**
+**Scale-Out (Fleet Expansion):**
+The EC2 dashboard shows the fleet successfully expanded to 8 instances to meet demand.
 ![EC2 Fleet Expansion](./Screenshot%202026-01-14%20010040.png)
 
-**Scale-In (Self-Healing/Termination Activity):**
-![ASG Activity Logs](./Screenshot%202026-01-14%20010201.png)
+**Scale-In (Automatic Cost Optimization):**
+The ASG Activity History proves the system's "self-healing" nature by automatically terminating extra instances to return to the minimum desired capacity.
+![ASG Termination Logs](./Screenshot%202026-01-14%20010201.png)
 
 ---
 
